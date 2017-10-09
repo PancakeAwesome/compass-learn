@@ -1,0 +1,470 @@
+/**Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+// 可以使用normalize（compass的插件）去替换不是很合适的reset
+// @import "compass/reset";  // reset标签在各大浏览器中的默认样式
+// @import "variables";  // control directives
+$browser-minimum-versions: ("ie": "6");
+
+
+/**
+* CONTENTS
+*
+* TOOLS
+* 
+* SETTINGS
+* variables--------变量集中存储文件
+* mixin--------mixin集中存储文件
+* 
+* COMPONENTS
+* helpers
+* browser supports
+* utilities
+* typography
+* css3
+* layout
+* reset
+* normalize
+*
+* BUSINESS
+* 
+* BASE
+* screen.scss---------针对当前站点主页内容的样式修饰
+ */
+
+@import "variables",
+"mixin";
+
+@import "icons";
+// @import "compass/reset";
+// @import "compass/helpers";
+
+/*
+	引入normalize模块
+ */
+
+//@import "normalize";
+
+/*
+	引入normalize子模块之前需要引入normalize-version
+ */
+//@import "normalize-version";
+/*
+	normalize子模块一
+ */
+//@import "normalize/html5";
+/*
+	normalize子模块二
+ */
+//@import "normalize/base";
+/*
+	normalize子模块三
+ */
+//@import "normalize/links";
+
+/*
+	引入	css3模块
+ */
+
+@import "compass/css3";
+
+/*
+	引入browser support模块（compass默认）
+ */
+
+@import "compass/support";
+
+/*
+	引入utilities
+ */
+
+@import "compass/utilities";
+@import "compass/utilities/print";
+
+/*
+	compass内置的browsers函数用于返回浏览器name的list
+ */
+
+@import "compass/typography";
+// @debug browsers();
+
+/*
+	声明需要支持哪种浏览器
+	value是浏览器的list
+ */
+
+// $supported-browsers: chrome;
+
+/*
+	声明compass支持的最低浏览器版本
+ */
+
+// $browser-minimum-versions: ("ie": "8");
+// @import "compass/layout";
+
+/*
+	layout的三大子模块（包含一系列功能的mixin函数）
+ */
+
+@import "compass/layout/grid-background";
+@import "compass/layout/sticky-footer";
+@import "compass/layout/stretching";
+
+/*
+	stretch提供绝对布局的标准样式框架
+ */
+/*
+	stretching模块
+ */
+.stretch-full {
+    @include stretch();
+}
+/*
+	sticky-footer模块
+ */
+@include sticky-footer(30px);
+
+/*
+	grid-background模块
+ */
+#root {
+	@include grid-background();
+}
+
+.opacity-test {
+    @include opacity(.5);
+}
+
+.inlineblock-test {
+    @include inline-block();
+}
+
+.flex-test {
+    @include display-flex();
+    @include flex-direction(row);
+    @include justify-content(center);
+    @include align-items(center);
+}
+
+// 主标题样式
+.headline {
+    font-family: $headline-ff;
+}
+
+
+/* 页面主体内容样式 */
+
+.main-sec-ff {
+    font-family: $main-sec-ff;
+}
+
+
+/*
+	@at-root: 用来内部的选择器输出到css文件时直接写在css文件顶层
+	而不是写在选择内部作为嵌套显示
+	这样的优化作用是由于浏览器解析css选择器时会从右往左解析
+	如果嵌套在选择器中加大浏览器解析的时间
+ */
+
+.main-sec {
+    @at-root {
+        .main-sec-headline {
+            font: {
+                family: $main-sec-ff;
+                size: 16px;
+            }
+        }
+
+        .main-sec-detail {
+            font-size: 12px;
+        }
+    }
+}
+
+a {
+    &:hover {
+        color: blue
+    }
+}
+
+
+/*	sass functions */
+
+p {
+    color: hsl(270, 100%, 50%);
+}
+
+
+/*
+	mixin-demo
+ */
+
+.webdemo-sec {
+    //@include col-sm(50%);
+
+    @include box-shadow(1px 2px 3px 4px #cfcecf);
+
+    // &:hover {
+    //     background-color: #f5f5f5;
+    // }
+}
+
+.error {
+    color: red;
+}
+
+.serious-error {
+    @extend .error;
+    border: 1px solid red;
+}
+
+
+/*
+	----------------------
+	typography模块
+ */
+
+a {
+    @include hover-link(); // @include link-colors(#cc0, #c0c, #0cc, #00c, #c00);
+    @include unstyled-link();
+}
+
+／* 序号后无样式 .list-unstyled {
+    @include no-bullets();
+}
+
+.list-unstyled-list {
+    @include no-bullet();
+}
+
+.list-inline {
+    @include inline-list();
+}
+
+
+/*
+	实现横向导航条的样式 且每个li都有自己的高度不同于上例 无法撑起导航条
+ */
+
+.list-horizontal {
+    @include horizontal-list(0, right);
+}
+
+.list-inline-block {
+    @include inline-block(7px);
+}
+
+
+/*
+	强制长文本换行
+ */
+
+.wrap-text {
+    @include force-wrap();
+}
+
+.nowrap-text {
+    @include nowrap();
+}
+
+
+
+/*
+	超长出现省略号
+	开启firefox对ellipsis的能力支持
+	需要xml支持
+	compass install compass/ellipsis
+
+ */
+
+$use-mozilla-ellipsis-binding: true;
+.text-ellipsis {
+    @include ellipsis();
+}
+
+
+/*
+  背景图片和标签文本重复时，隐藏标签文本
+  两种方法
+ */
+
+.text-hide {
+    @include hide-text(); // @include squish-text();
+}
+
+
+/*
+	添加背景图片
+ */
+
+.bind-img {
+    @include replace-text("http://img3.mukewang.com/5452ffeb0001b82401000100-40-40.jpg", 50%, .50%); // @include replace-text-with-dimensions(image-url('1503616769997479025.jpg'));
+}
+
+
+/*
+	设置主题中的行间距
+	16*1.5 = 24px
+ */
+
+// $base-font-size: 16px;
+// $base-line-height: 24px;
+// body {
+// 	@include debug-vertical-alignment();
+// }
+
+/*
+ 	-------------------
+ 	HELPERS
+	--------------
+ 	图片压缩成base64
+ 	需要安装helpers模块
+ 	compass install helpers
+  */
+
+// .analyze-logo {
+// 	background-image: inline-image('1503616769997479025.jpg');
+// }
+
+/*
+	相对路径图片的引用
+	自动根据图片改变而改变URL后面的cache
+	会根据config中的httppath配置项去自动加上http域名
+	config文件中的relative-assets配置项来配置是否使用相对路径来引用资源文件
+ */
+
+.analyze-logo {
+    background-image: image-url('1503616769997479025.jpg');
+}
+
+
+/*
+	stylesheet-url和font-url用来指向css目录和font目录的资源文件
+	相比于font-url，font-face会额外根据字体文件帮我们生成对应的format的值
+ */
+
+// @debug font-files("fontawesome-webfont.eot", "fontawesome-webfont.ttf", "fontawesome-webfont.svg", "fontawesome-webfont.woff", "FontAwesome.otf");
+@include font-face("FontAwesome",
+font-files("fontawesome-webfont.eot", "fontawesome-webfont.ttf", "fontawesome-webfont.svg", "fontawesome-webfont.woff", "FontAwesome.otf"));
+
+// append-selector: 将选择器嵌套起来
+// 注意：在选择器里面要引用sass的变量需要加上#{}sass的变量包裹器
+#{append-selector('p, span, div', '.bar')} {
+    color: #000;
+}
+
+
+/*
+	------------
+	utilities
+	与helpers不同，helpers大多都是functions，utilities大多都是mixin
+	没办法放到其他模块的东西都可以放到这个模块
+ */
+
+
+/*
+	-----
+	color子模块
+ */
+
+
+/*
+	brightness计算hsl的亮度值（l）
+ */
+
+// @debug brightness(#fff);
+
+/*
+	-----
+	print子模块
+	需要print.scss中做适配
+ */
+
+@include print-utilities(screen);
+
+
+/*
+	-----
+	table子模块
+	需要print.scss中做适配
+ */
+
+
+/*
+	重要table各种mixin
+ */
+
+.good-price {
+    $table-color: #7a98c6;
+
+    @include outer-table-borders();
+    @include inner-table-borders(1px,
+    darken($table-color, 40%)); // th标题居中对齐，普通文本左对齐，竖直右对齐，并填充padding
+    @include table-scaffolding(); // 奇偶行不同色，相邻纵列不同色
+    @include alternating-rows-and-columns($table-color,
+    adjust-hue($table-color, -120deg),
+    #222222);
+}
+
+
+/*
+	-----
+	general子模块
+	需要print.scss中做适配
+ */
+
+.clearfix {
+    /*
+		子元素超出父元素会overflow: hidden
+	 */
+    // @include clearfix();
+    /*
+		支持子元素浮动在父元素之外
+	 */
+    @include pie-clearfix();
+}
+
+
+/*
+	支持子元素浮动在父元素之外
+	兼容ie6
+ */
+
+.pull-left {
+    @include float(left); // @include float-left();
+}
+
+
+/*
+	ie6相关属性
+ */
+
+.need-has-layout {
+    @include has-layout();
+}
+
+.underscore-hack-display {
+    @include underscore-hack(display,
+    block,
+    inline);
+}
+
+.test-min-height {
+    @include min-height(10px);
+}
+
+
+/*
+	标签云
+ */
+
+.tag-cloud-container {
+    @include tag-cloud(24px);
+}
+
+/*
+	最重要的utilities子模块
+	sprites----合图模块
+ */

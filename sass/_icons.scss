@@ -1,0 +1,36 @@
+/*
+	引入合图模块
+ */
+@import "compass/utilities/sprites";
+/*
+	是否关闭精灵图合图模块默认的伪类样式
+ */
+$disable-magic-sprite-selectors: true;
+/*
+	默认设置图片类的高宽
+ */
+$logo-sprite-dimensions: true;
+/*
+	精灵合图的默认排列方式
+ */
+$logo-layout: smart;
+/*
+	引入这些文件---magic imports
+	compass根据这些文件生成一个不写入硬盘上的scss文件
+ */
+/*
+	可以使用compass sprite 'images/logo/*.png'命令去
+	生成默认不写入硬盘的scss文件
+ */
+@import "logo/*.png";
+/*
+	这个mixin根据上面这个scss文件生成对应的样式
+ */
+@include all-logo-sprites();
+
+/*
+	其余类想使用某张图片，可以不使用这个类名，直接引入图片类即可
+ */
+.main-logo {
+	@include logo-sprite('btn');
+}
